@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MCVDatingApp.API.Data;
+using MVCDatingApp.API.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace MCVDatingApp.API.Controllers
+namespace MVCDatingApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

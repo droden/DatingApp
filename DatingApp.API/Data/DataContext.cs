@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using DatingApp.API.Models;
 
-namespace MCVDatingApp.API.Data
+namespace MVCDatingApp.API.Data
 
 {
     public class DataContext : DbContext
@@ -12,5 +12,6 @@ namespace MCVDatingApp.API.Data
         }
 
         public DbSet<Value> Values { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

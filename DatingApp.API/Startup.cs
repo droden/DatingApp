@@ -10,10 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MCVDatingApp.API.Data;
 using Microsoft.EntityFrameworkCore;
+using MVCDatingApp.API.Data;
 
-namespace MCVDatingApp.API
+namespace MVCDatingApp.API
 {
     public class Startup
     {
@@ -30,6 +30,7 @@ namespace MCVDatingApp.API
             services.AddDbContext<DataContext>(x=>x.UseSqlite(Configuration.GetConnectionString("connectionString")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
+            services.AddScoped<IAuthRepository, AuthRepository>();
 
         }
 
