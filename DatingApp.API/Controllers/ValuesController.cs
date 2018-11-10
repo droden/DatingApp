@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MVCDatingApp.API.Controllers
 {
-    [Authorize]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
