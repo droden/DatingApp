@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatingApp.API.Models;
@@ -9,7 +10,7 @@ namespace DatingApp.API.Data
     public class DatingRepository : IDatingRepository
     {
         private readonly DataContext _context;
-
+        public virtual bool AutoDetectChangesEnabled { get; set; }
         public DatingRepository(DataContext context)
         {
             _context = context;
@@ -36,7 +37,11 @@ namespace DatingApp.API.Data
 
         public async Task<bool> SaveAll()
         {
-           return await _context.SaveChangesAsync() > 0;
+            //if the user hits save with no changes save anyways otherwise 
+            //errors will occur because the framework will return false which is interpreted as an error condition
+            
+            AutoDetectChangesEnabled = false;
+            return  await _context.SaveChangesAsync() > 0;
         }
     }
 }
