@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Dtos;
 using DatingApp.API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,13 @@ namespace MVCDatingApp.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config)
-        {
+
+          private readonly IMapper _mapper;
+        public AuthController(IAuthRepository repo, IConfiguration config,
+        IMapper mapper
+        )
+        {   
+            _mapper = mapper;
             _config = config;
             _repo = repo;
         }
@@ -81,9 +87,20 @@ namespace MVCDatingApp.API.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            
+
+            var user = _mapper.Map<UserForListDto>(userFromRepo);
+
             //serialize token and return it to the client
-            return Ok(new { token = tokenHandler.WriteToken(token)});
+            //added user mapped to UserForListDto so we can get the main photo for the nav bar
+            //without doing another repo call or storing in the token
+            return Ok(new
+            { 
+                token = tokenHandler.WriteToken(token),
+                user
+
+            });
+
+
         }
     }
 

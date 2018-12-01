@@ -16,7 +16,10 @@ namespace MVCDatingApp.API.Data
         }
         public async Task<User> Login(string username, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x=>x.UserName == username);
+            //photos were automatically included since its not part of the user object
+            //so include them so we can get the main photo for the nav bar
+            var user = await _context.Users.Include(p => p.Photos)
+            .FirstOrDefaultAsync(x=>x.UserName == username);
             if(user == null) return null;
 
             if(!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)){

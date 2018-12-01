@@ -10,6 +10,8 @@ namespace DatingApp.API.Models
              public DateTime DateAdded { get; set; }
              public bool IsMainPhoto { get; set; }
 
+             public string PublicId {get;set;}
+
              public User User {get;set;}
 
              public int UserId {get;set;}
