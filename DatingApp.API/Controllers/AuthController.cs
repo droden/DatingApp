@@ -32,24 +32,23 @@ namespace MVCDatingApp.API.Controllers
             _repo = repo;
         }
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisdterDto)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
 
 
-            userForRegisdterDto.Username = userForRegisdterDto.Username.ToLower();
+            userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
 
-            if (await _repo.UserExists(userForRegisdterDto.Username))
+            if (await _repo.UserExists(userForRegisterDto.Username))
                 return BadRequest("Username already exists");
 
-            var userToCreate = new User
-            {
-                UserName = userForRegisdterDto.Username
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
-            };
+            var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
+            //return this instead of created user as that contans password and other sensitive info
+             var userToReturn = _mapper.Map<UserForDetailDto>(createdUser);
 
-            var createdUser = await _repo.Register(userToCreate, userForRegisdterDto.Password);
-            //TODO set to createdatroute once that route exists
-            return StatusCode(201);
+            //send back created route once user is created
+            return CreatedAtRoute("GetUser",new {controller = "Users", id = userToCreate.Id}, userToReturn);
 
         }
 
